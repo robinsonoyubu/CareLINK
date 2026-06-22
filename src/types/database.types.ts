@@ -56,7 +56,7 @@ export type Database = {
           specialty: string | null;
           years_of_experience: number;
           preferred_location: string | null;
-          notification_number: string | null;
+          phone_number: string | null;
           bio: string | null;
           workforce_status: "available" | "assigned" | "on_leave" | "under_review" | "resigned" | "contract_completed" | "suspended";
           availability: string[];
@@ -72,7 +72,7 @@ export type Database = {
           specialty?: string | null;
           years_of_experience?: number;
           preferred_location?: string | null;
-          notification_number?: string | null;
+          phone_number?: string | null;
           bio?: string | null;
           workforce_status?: "available" | "assigned" | "on_leave" | "under_review" | "resigned" | "contract_completed" | "suspended";
           availability?: string[];
@@ -89,22 +89,34 @@ export type Database = {
         Row: {
           id: string;
           profile_id: string;
-          org_type: "hospital" | "clinic" | "hmo" | "ngo" | "school" | "nursing_home";
-          organization_name: string;
+          type: "hospital" | "clinic" | "hmo" | "ngo" | "school" | "nursing_home";
+          name: string;
           registration_number: string | null;
           website: string | null;
           contact_person: string;
+          contact_email: string | null;
+          contact_phone: string | null;
+          address: string | null;
+          city: string | null;
+          state: string | null;
+          country: string;
           is_verified: boolean;
           created_at: string;
           updated_at: string;
         };
         Insert: {
           profile_id: string;
-          org_type: "hospital" | "clinic" | "hmo" | "ngo" | "school" | "nursing_home";
-          organization_name: string;
+          type: "hospital" | "clinic" | "hmo" | "ngo" | "school" | "nursing_home";
+          name: string;
           registration_number?: string | null;
           website?: string | null;
           contact_person: string;
+          contact_email?: string | null;
+          contact_phone?: string | null;
+          address?: string | null;
+          city?: string | null;
+          state?: string | null;
+          country?: string;
           is_verified?: boolean;
         };
         Update: Partial<Database["public"]["Tables"]["organizations"]["Insert"]>;
@@ -145,6 +157,7 @@ export type Database = {
           duration_type: string;
           title: string;
           description: string | null;
+          requirements: string | null;
           start_date: string;
           end_date: string | null;
           status: "pending" | "active" | "completed" | "cancelled";
@@ -164,6 +177,7 @@ export type Database = {
           duration_type: string;
           title: string;
           description?: string | null;
+          requirements?: string | null;
           start_date: string;
           end_date?: string | null;
           status?: "pending" | "active" | "completed" | "cancelled";
@@ -238,20 +252,22 @@ export type Database = {
       notifications: {
         Row: {
           id: string;
-          user_id: string;
+          profile_id: string;
           title: string;
-          body: string;
-          type: "assignment" | "booking" | "payment" | "reminder" | "system";
+          message: string;
+          type: "assignment" | "booking" | "payment" | "reminder" | "system" | "performance" | "message" | "alert";
           is_read: boolean;
+          link_url: string | null;
           metadata: Json | null;
           created_at: string;
         };
         Insert: {
-          user_id: string;
+          profile_id: string;
           title: string;
-          body: string;
-          type: "assignment" | "booking" | "payment" | "reminder" | "system";
+          message: string;
+          type: "assignment" | "booking" | "payment" | "reminder" | "system" | "performance" | "message" | "alert";
           is_read?: boolean;
+          link_url?: string | null;
           metadata?: Json | null;
         };
         Update: Partial<Database["public"]["Tables"]["notifications"]["Insert"]>;
@@ -282,26 +298,28 @@ export type Database = {
       payments: {
         Row: {
           id: string;
+          payer_id: string | null;
           client_id: string | null;
           organization_id: string | null;
           assignment_id: string | null;
           amount: number;
           currency: string;
           status: "pending" | "paid" | "failed" | "refunded";
-          provider: "stripe" | "paystack";
+          payment_method: "stripe" | "paystack" | "bank_transfer" | "cash";
           provider_reference: string | null;
           invoice_url: string | null;
           paid_at: string | null;
           created_at: string;
         };
         Insert: {
+          payer_id?: string | null;
           client_id?: string | null;
           organization_id?: string | null;
           assignment_id?: string | null;
           amount: number;
           currency?: string;
           status?: "pending" | "paid" | "failed" | "refunded";
-          provider: "stripe" | "paystack";
+          payment_method: "stripe" | "paystack" | "bank_transfer" | "cash";
           provider_reference?: string | null;
           invoice_url?: string | null;
           paid_at?: string | null;

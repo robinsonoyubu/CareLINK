@@ -70,7 +70,7 @@ export interface Professional {
   specialty?: string;
   years_of_experience: number;
   preferred_location?: string;
-  notification_number?: string;
+  phone_number?: string;
   bio?: string;
   workforce_status: WorkforceStatus;
   availability: ServiceDuration[];
@@ -85,11 +85,17 @@ export interface Organization {
   id: string;
   profile_id: string;
   profile?: Profile;
-  org_type: OrganizationType;
-  organization_name: string;
+  type: OrganizationType;
+  name: string;
   registration_number?: string;
   website?: string;
   contact_person: string;
+  contact_email?: string;
+  contact_phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  country?: string;
   is_verified: boolean;
   created_at: string;
   updated_at: string;
