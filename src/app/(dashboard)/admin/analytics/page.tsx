@@ -1,9 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/layout/header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatsCard } from "@/components/dashboard/stats-card";
-import { Users, Briefcase, TrendingUp, DollarSign, UserCheck, Building2 } from "lucide-react";
+import { Users, Briefcase, Building2 } from "lucide-react";
 import { AnalyticsCharts } from "@/components/dashboard/analytics-charts";
 import type { Metadata } from "next";
 

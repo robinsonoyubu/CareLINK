@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import Image from "next/image";
 import { Metadata } from "next";
 import { formatDate } from "@/lib/utils";
 import { BookOpen } from "lucide-react";
@@ -54,9 +55,11 @@ export default async function BlogPage() {
                   className="group rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   {post.cover_image_url ? (
-                    <img
+                    <Image
                       src={post.cover_image_url}
                       alt={post.title}
+                      width={600}
+                      height={192}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (

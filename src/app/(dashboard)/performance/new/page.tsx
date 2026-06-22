@@ -33,7 +33,7 @@ export default function NewScorecardPage() {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const { register, handleSubmit, control, watch, formState: { errors, isSubmitting } } = useForm<ScorecardInput>({
+  const { register, handleSubmit, control, watch, formState: { isSubmitting } } = useForm<ScorecardInput>({
     resolver: zodResolver(scorecardSchema) as Resolver<ScorecardInput>,
     defaultValues: {
       attendance: 80, punctuality: 80, professionalism: 80,
@@ -166,6 +166,7 @@ export default function NewScorecardPage() {
                 <div key={m.key} className="space-y-1.5">
                   <div className="flex items-center justify-between">
                     <Label htmlFor={m.key}>{m.label}</Label>
+                    {/* eslint-disable-next-line react-hooks/incompatible-library */}
                     <span className="text-sm font-medium text-[#374151]">{watch(m.key as keyof ScorecardInput)}%</span>
                   </div>
                   <input

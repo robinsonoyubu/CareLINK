@@ -60,6 +60,8 @@ export default function MessagesPage() {
       setConversations((convs as Conversation[]) ?? []);
     }
     load();
+    // supabase client is stable (created once per render cycle outside this effect)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

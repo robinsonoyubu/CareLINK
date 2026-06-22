@@ -1,10 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/layout/header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, MapPin } from "lucide-react";
-import { formatDate } from "@/lib/utils";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Scheduling" };

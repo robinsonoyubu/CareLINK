@@ -42,6 +42,7 @@ export default function NewAssignmentPage() {
         service_type: serviceType,
         duration_type: durationType,
         location,
+        // eslint-disable-next-line react-hooks/incompatible-library
         requirements: watch("description") ?? "",
       }),
     });

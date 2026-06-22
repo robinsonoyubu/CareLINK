@@ -4,7 +4,7 @@ import { Header } from "@/components/layout/header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Building2, MapPin, Calendar, Plus } from "lucide-react";
+import { Building2, MapPin, Calendar } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import type { Metadata } from "next";

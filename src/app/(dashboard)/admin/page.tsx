@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Users, Briefcase, TrendingUp, Building2, BarChart2, UserPlus } from "lucide-react";
 import Link from "next/link";
-import { formatDate, humanizeStatus } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Admin Panel" };

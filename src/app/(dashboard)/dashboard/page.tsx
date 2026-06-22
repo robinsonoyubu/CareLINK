@@ -5,7 +5,7 @@ import { StatsCard } from "@/components/dashboard/stats-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, UserCheck, Briefcase, Heart, Building2, TrendingUp, Clock } from "lucide-react";
-import { formatDate, humanizeStatus } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Dashboard" };

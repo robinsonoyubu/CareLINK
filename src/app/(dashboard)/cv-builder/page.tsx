@@ -10,8 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Sparkles, Download, FileText, Copy, Check } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Sparkles, FileText, Copy, Check } from "lucide-react";
 import { cvGeneratorSchema, type CVGeneratorInput } from "@/validations";
 
 export default function CvBuilderPage() {
@@ -19,7 +19,7 @@ export default function CvBuilderPage() {
   const [streaming, setStreaming] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<CVGeneratorInput>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<CVGeneratorInput>({
     resolver: zodResolver(cvGeneratorSchema) as Resolver<CVGeneratorInput>,
     defaultValues: { template: "standard", skills: [], years_of_experience: 1 },
   });

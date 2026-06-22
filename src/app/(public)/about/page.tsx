@@ -1,7 +1,6 @@
-import { Header } from "@/components/layout/header";
 import { Metadata } from "next";
 import Link from "next/link";
-import { Heart, Shield, Award, Users, Target, Globe } from "lucide-react";
+import { Heart, Shield, Award, Globe } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About Us | careLINK by RAFFATI",
