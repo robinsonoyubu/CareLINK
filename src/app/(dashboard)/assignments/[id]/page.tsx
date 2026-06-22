@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowLeft, MapPin, Calendar, Clock, DollarSign, User, Building2, FileText } from "lucide-react";
 import Link from "next/link";
 import { formatDate, formatCurrency, getInitials, humanizeProfession, humanizeStatus, generateAvatarUrl } from "@/lib/utils";
+import { AssignmentStatusActions } from "@/components/assignments/status-actions";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Assignment Details" };
@@ -23,6 +24,9 @@ export default async function AssignmentDetailPage({ params }: { params: Promise
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
+
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+  const isAdmin = profile?.role === "admin";
 
   type AssignmentRow = {
     id: string;
@@ -104,9 +108,12 @@ export default async function AssignmentDetailPage({ params }: { params: Promise
                 <h2 className="text-xl font-bold text-[#0F172A] mb-1">{a.title}</h2>
                 <p className="text-sm text-[#64748B] capitalize">{a.service_type?.replace(/_/g, " ")} · {a.duration_type}</p>
               </div>
-              <Badge variant={statusColors[a.status] ?? "default"} className="text-sm px-3 py-1">
-                {humanizeStatus(a.status)}
-              </Badge>
+              <div className="flex items-center gap-3">
+                <Badge variant={statusColors[a.status] ?? "default"} className="text-sm px-3 py-1">
+                  {humanizeStatus(a.status)}
+                </Badge>
+                {isAdmin && <AssignmentStatusActions assignmentId={a.id} currentStatus={a.status} />}
+              </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">

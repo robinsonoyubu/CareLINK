@@ -8,14 +8,19 @@ import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Phone, Mail, MapPin, Star, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { getInitials, humanizeProfession, humanizeStatus, generateAvatarUrl, scoreToGrade, formatDate } from "@/lib/utils";
+import { ProfessionalVerifyToggle } from "@/components/professionals/verify-toggle";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Professional Profile" };
 
-export default async function ProfessionalProfilePage({ params }: { params: { id: string } }) {
+export default async function ProfessionalProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
+
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+  const isAdmin = profile?.role === "admin";
 
   const { data: rawPro } = await supabase
     .from("professionals")
@@ -24,7 +29,7 @@ export default async function ProfessionalProfilePage({ params }: { params: { id
       rating, total_assignments, is_verified, bio, availability,
       profiles!inner(id, full_name, email, phone, avatar_url, address)
     `)
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (!rawPro) notFound();
@@ -39,7 +44,7 @@ export default async function ProfessionalProfilePage({ params }: { params: { id
   const { data: scorecards } = await supabase
     .from("scorecards")
     .select("id, period_month, period_year, overall_score, attendance, punctuality, professionalism, communication, clinical_competence, teamwork, patient_care")
-    .eq("professional_id", params.id)
+    .eq("professional_id", id)
     .order("period_year", { ascending: false })
     .order("period_month", { ascending: false })
     .limit(3);
@@ -48,7 +53,7 @@ export default async function ProfessionalProfilePage({ params }: { params: { id
   const { data: assignments } = await supabase
     .from("assignments")
     .select("id, title, status, service_type, location, start_date, end_date")
-    .eq("professional_id", params.id)
+    .eq("professional_id", id)
     .order("created_at", { ascending: false })
     .limit(5);
 
@@ -77,7 +82,7 @@ export default async function ProfessionalProfilePage({ params }: { params: { id
                     <h2 className="text-xl font-bold text-[#0F172A]">{profile.full_name}</h2>
                     <p className="text-sm text-[#64748B]">{humanizeProfession(pro.profession)}{pro.specialty && ` — ${pro.specialty}`}</p>
                   </div>
-                  <div className="flex gap-2 ml-auto flex-wrap">
+                  <div className="flex gap-2 ml-auto flex-wrap items-center">
                     <Badge variant={pro.workforce_status as "available" | "assigned" | "on_leave" | "under_review" | "suspended" | "resigned"}>
                       {humanizeStatus(pro.workforce_status)}
                     </Badge>
@@ -86,6 +91,7 @@ export default async function ProfessionalProfilePage({ params }: { params: { id
                         <ShieldCheck className="h-3 w-3" /> Verified
                       </span>
                     )}
+                    {isAdmin && <ProfessionalVerifyToggle professionalId={pro.id} isVerified={pro.is_verified} />}
                   </div>
                 </div>
 
