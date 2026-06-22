@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Header } from "@/components/layout/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,21 +12,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Sparkles, Download, FileText, Copy, Check } from "lucide-react";
-import { cvGeneratorSchema, type CvGeneratorInput } from "@/validations";
+import { cvGeneratorSchema, type CVGeneratorInput } from "@/validations";
 
 export default function CvBuilderPage() {
   const [generatedCv, setGeneratedCv] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<CvGeneratorInput>({
-    resolver: zodResolver(cvGeneratorSchema),
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<CVGeneratorInput>({
+    resolver: zodResolver(cvGeneratorSchema) as Resolver<CVGeneratorInput>,
     defaultValues: { template: "standard", skills: [], years_of_experience: 1 },
   });
 
   const [skillsInput, setSkillsInput] = useState("");
 
-  async function onSubmit(data: CvGeneratorInput) {
+  async function onSubmit(data: CVGeneratorInput) {
     setGeneratedCv("");
     setStreaming(true);
 
@@ -101,7 +101,7 @@ export default function CvBuilderPage() {
                   </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="profession">Profession</Label>
-                    <Select onValueChange={(v) => setValue("profession", v as CvGeneratorInput["profession"])}>
+                    <Select onValueChange={(v) => setValue("profession", v as CVGeneratorInput["profession"])}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select..." />
                       </SelectTrigger>

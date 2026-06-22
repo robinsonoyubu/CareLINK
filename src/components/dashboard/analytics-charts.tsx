@@ -85,7 +85,7 @@ export function AnalyticsCharts({ data }: ChartsProps) {
                 <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
                 <XAxis dataKey="period" tick={{ fontSize: 11 }} />
                 <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
-                <Tooltip formatter={(v: number) => [`${v}%`, "Score"]} />
+                <Tooltip formatter={(v) => [`${v}%`, "Score"]} />
                 <Line type="monotone" dataKey="score" stroke="#0F4C81" strokeWidth={2} dot={{ fill: "#0F4C81" }} />
               </LineChart>
             </ResponsiveContainer>

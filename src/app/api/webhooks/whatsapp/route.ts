@@ -30,13 +30,13 @@ export async function POST(req: NextRequest) {
 
     if (!text) return NextResponse.json({ status: "ok" });
 
-    const supabase = createServiceClient();
+    const supabase = await createServiceClient();
 
     // Log incoming message for admin review
     await supabase.from("audit_logs").insert({
       action: "whatsapp_message_received",
-      table_name: "messages",
-      new_data: { from, text, message_id: messageId },
+      resource_type: "messages",
+      new_values: { from, text, message_id: messageId },
     });
 
     return NextResponse.json({ status: "ok" });

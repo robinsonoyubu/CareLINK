@@ -82,7 +82,7 @@ export default function RegisterPage() {
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className={cn("text-sm font-semibold", selectedRole === opt.value ? "text-[#0F4C81]" : "text-[#0F172A]")})>
+                  <p className={cn("text-sm font-semibold", selectedRole === opt.value ? "text-[#0F4C81]" : "text-[#0F172A]")}>
                     {opt.label}
                   </p>
                   <p className="text-xs text-[#64748B]">{opt.description}</p>

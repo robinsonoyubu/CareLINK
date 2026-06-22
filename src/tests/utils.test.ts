@@ -60,6 +60,10 @@ describe("scoreToGrade", () => {
   it("returns correct grades", () => {
     expect(scoreToGrade(95)).toBe("A+");
     expect(scoreToGrade(85)).toBe("A");
-    expect(scoreToGrade(45)).toBe("F");
+    expect(scoreToGrade(75)).toBe("B+");
+    expect(scoreToGrade(65)).toBe("B");
+    expect(scoreToGrade(55)).toBe("C");
+    expect(scoreToGrade(45)).toBe("D");
+    expect(scoreToGrade(20)).toBe("F");
   });
 });

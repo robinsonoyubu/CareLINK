@@ -10,14 +10,10 @@ export const registerProfessionalSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   phone: z.string().min(10, "Valid phone number required"),
-  date_of_birth: z.string(),
-  gender: z.enum(["male", "female", "other"]),
-  address: z.string().min(5, "Address is required"),
-  nin: z.string().min(11, "Valid NIN required"),
   profession: z.enum(["nurse", "nurse_assistant", "caregiver", "physiotherapist", "doctor"]),
   specialty: z.string().optional(),
   years_of_experience: z.coerce.number().min(0),
-  preferred_location: z.string().optional(),
+  bio: z.string().optional(),
 });
 
 export const registerOrganizationSchema = z.object({

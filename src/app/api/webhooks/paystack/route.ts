@@ -13,21 +13,21 @@ export async function POST(req: NextRequest) {
   }
 
   const event = JSON.parse(body) as { event: string; data: Record<string, unknown> };
-  const supabase = createServiceClient();
+  const supabase = await createServiceClient();
 
   if (event.event === "charge.success") {
     const ref = event.data["reference"] as string;
     const amount = (event.data["amount"] as number) / 100;
 
     await supabase.from("payments").update({
-      status: "completed",
+      status: "paid",
       paid_at: new Date().toISOString(),
       amount,
-    }).eq("paystack_reference", ref);
+    }).eq("provider_reference", ref);
   } else if (event.event === "charge.failed") {
     const ref = event.data["reference"] as string;
     await supabase.from("payments").update({ status: "failed" })
-      .eq("paystack_reference", ref);
+      .eq("provider_reference", ref);
   }
 
   return NextResponse.json({ status: "ok" });

@@ -15,21 +15,21 @@ export async function POST(req: NextRequest) {
   try {
     const stripe = (await import("stripe")).default;
     const client = new stripe(process.env.STRIPE_SECRET_KEY ?? "");
-    event = client.webhooks.constructEvent(body, sig, webhookSecret) as typeof event;
+    event = client.webhooks.constructEvent(body, sig, webhookSecret) as unknown as typeof event;
   } catch {
     return NextResponse.json({ error: "Signature verification failed" }, { status: 400 });
   }
 
-  const supabase = createServiceClient();
+  const supabase = await createServiceClient();
 
   if (event.type === "payment_intent.succeeded") {
     const pi = event.data.object;
-    await supabase.from("payments").update({ status: "completed", paid_at: new Date().toISOString() })
-      .eq("stripe_payment_intent_id", pi["id"]);
+    await supabase.from("payments").update({ status: "paid", paid_at: new Date().toISOString() })
+      .eq("provider_reference", pi["id"] as string);
   } else if (event.type === "payment_intent.payment_failed") {
     const pi = event.data.object;
     await supabase.from("payments").update({ status: "failed" })
-      .eq("stripe_payment_intent_id", pi["id"]);
+      .eq("provider_reference", pi["id"] as string);
   }
 
   return NextResponse.json({ received: true });

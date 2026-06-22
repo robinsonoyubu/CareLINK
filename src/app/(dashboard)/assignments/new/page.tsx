@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Header } from "@/components/layout/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,7 +24,7 @@ export default function NewAssignmentPage() {
   const [selectedProfessionalId, setSelectedProfessionalId] = useState<string | null>(null);
 
   const { register, handleSubmit, control, watch, formState: { errors, isSubmitting } } = useForm<AssignmentInput>({
-    resolver: zodResolver(assignmentSchema),
+    resolver: zodResolver(assignmentSchema) as Resolver<AssignmentInput>,
   });
 
   const serviceType = watch("service_type");

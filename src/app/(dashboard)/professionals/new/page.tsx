@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { createClient } from "@/lib/supabase/client";
 import { registerProfessionalSchema, type RegisterProfessionalInput } from "@/validations";
+import type { Resolver } from "react-hook-form";
 import { ArrowLeft, UserPlus } from "lucide-react";
 import Link from "next/link";
 
@@ -21,7 +22,7 @@ export default function NewProfessionalPage() {
   const [error, setError] = useState<string | null>(null);
 
   const { register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm<RegisterProfessionalInput>({
-    resolver: zodResolver(registerProfessionalSchema),
+    resolver: zodResolver(registerProfessionalSchema) as Resolver<RegisterProfessionalInput>,
     defaultValues: { years_of_experience: 1 },
   });
 
@@ -116,8 +117,6 @@ export default function NewProfessionalPage() {
                           <SelectItem value="caregiver">Caregiver</SelectItem>
                           <SelectItem value="physiotherapist">Physiotherapist</SelectItem>
                           <SelectItem value="doctor">Doctor</SelectItem>
-                          <SelectItem value="occupational_therapist">Occupational Therapist</SelectItem>
-                          <SelectItem value="health_attendant">Health Attendant</SelectItem>
                         </SelectContent>
                       </Select>
                     )}

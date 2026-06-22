@@ -14,7 +14,7 @@ export default async function BlogPage() {
   const { data: posts } = await supabase
     .from("blog_posts")
     .select("id, title, slug, excerpt, cover_image_url, published_at, author_id")
-    .eq("published", true)
+    .eq("is_published", true)
     .order("published_at", { ascending: false })
     .limit(20);
 

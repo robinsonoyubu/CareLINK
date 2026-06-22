@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Header } from "@/components/layout/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,7 +34,7 @@ export default function NewScorecardPage() {
   const [error, setError] = useState<string | null>(null);
 
   const { register, handleSubmit, control, watch, formState: { errors, isSubmitting } } = useForm<ScorecardInput>({
-    resolver: zodResolver(scorecardSchema),
+    resolver: zodResolver(scorecardSchema) as Resolver<ScorecardInput>,
     defaultValues: {
       attendance: 80, punctuality: 80, professionalism: 80,
       communication: 80, clinical_competence: 80, teamwork: 80, patient_care: 80,
@@ -71,7 +71,7 @@ export default function NewScorecardPage() {
 
     const { error: insertError } = await supabase.from("scorecards").insert({
       ...data,
-      reviewed_by: user.id,
+      created_by: user.id,
     });
 
     if (insertError) {
