@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import type { UserRole } from "@/types";
@@ -18,6 +19,23 @@ const roleOptions: { value: UserRole; label: string; description: string; icon: 
   { value: "client", label: "Home-Care Client", description: "Family or individual requiring care", icon: Heart },
 ];
 
+const professionOptions = [
+  { value: "nurse", label: "Nurse" },
+  { value: "nurse_assistant", label: "Nurse Assistant" },
+  { value: "caregiver", label: "Caregiver" },
+  { value: "physiotherapist", label: "Physiotherapist" },
+  { value: "doctor", label: "Doctor" },
+];
+
+const orgTypeOptions = [
+  { value: "hospital", label: "Hospital" },
+  { value: "clinic", label: "Clinic" },
+  { value: "hmo", label: "HMO" },
+  { value: "ngo", label: "NGO" },
+  { value: "school", label: "School" },
+  { value: "nursing_home", label: "Nursing Home" },
+];
+
 export default function RegisterPage() {
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +43,20 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const [form, setForm] = useState({ full_name: "", email: "", password: "" });
+  const [form, setForm] = useState({
+    full_name: "",
+    email: "",
+    password: "",
+    phone: "",
+    // professional fields
+    profession: "",
+    years_of_experience: "",
+    // org fields
+    org_name: "",
+    org_type: "",
+    registration_number: "",
+    website: "",
+  });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -34,20 +65,52 @@ export default function RegisterPage() {
     setLoading(true);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
+
+    // 1. Create auth user (triggers profile creation via DB function)
+    const { data: authData, error: signUpError } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
       options: {
         data: { full_name: form.full_name, role: selectedRole },
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${window.location.origin}/api/auth/callback`,
       },
     });
 
-    setLoading(false);
-    if (error) {
-      setError(error.message);
+    if (signUpError) {
+      setError(signUpError.message);
+      setLoading(false);
       return;
     }
+
+    // Update phone on profile if provided
+    if (authData.user && form.phone) {
+      await supabase.from("profiles").update({ phone: form.phone }).eq("id", authData.user.id);
+    }
+
+    // 2. Create role-specific record via API route (uses service role key)
+    const res = await fetch("/api/auth/complete-profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        role: selectedRole,
+        profession: form.profession || undefined,
+        years_of_experience: form.years_of_experience ? parseInt(form.years_of_experience) : undefined,
+        org_name: form.org_name || undefined,
+        org_type: form.org_type || undefined,
+        registration_number: form.registration_number || undefined,
+        website: form.website || undefined,
+        contact_person: form.full_name,
+      }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json() as { error?: string };
+      setError(data.error ?? "Failed to complete profile setup");
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
     router.push("/dashboard");
   }
 
@@ -60,6 +123,7 @@ export default function RegisterPage() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {/* Role selector */}
         <div className="mb-6 grid grid-cols-1 gap-2.5">
           {roleOptions.map((opt) => {
             const Icon = opt.icon;
@@ -100,6 +164,7 @@ export default function RegisterPage() {
               </div>
             )}
 
+            {/* Common fields */}
             <div className="space-y-1.5">
               <Label htmlFor="full_name">
                 {selectedRole === "organization" ? "Contact Person Name" : "Full Name"}
@@ -114,17 +179,29 @@ export default function RegisterPage() {
               />
             </div>
 
-            <div className="space-y-1.5">
-              <Label htmlFor="email">Email address</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                autoComplete="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                required
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="phone">Phone</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="+234 800 000 0000"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                />
+              </div>
             </div>
 
             <div className="space-y-1.5">
@@ -139,6 +216,7 @@ export default function RegisterPage() {
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                   required
+                  minLength={8}
                 />
                 <button
                   type="button"
@@ -150,6 +228,77 @@ export default function RegisterPage() {
                 </button>
               </div>
             </div>
+
+            {/* Professional-specific fields */}
+            {selectedRole === "professional" && (
+              <div className="grid grid-cols-2 gap-4 pt-2 border-t border-[#F1F5F9]">
+                <div className="space-y-1.5">
+                  <Label>Profession</Label>
+                  <Select value={form.profession} onValueChange={(v) => setForm({ ...form, profession: v })}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select profession" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {professionOptions.map((p) => (
+                        <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="years_exp">Years of Experience</Label>
+                  <Input
+                    id="years_exp"
+                    type="number"
+                    min="0"
+                    max="50"
+                    placeholder="0"
+                    value={form.years_of_experience}
+                    onChange={(e) => setForm({ ...form, years_of_experience: e.target.value })}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Organization-specific fields */}
+            {selectedRole === "organization" && (
+              <div className="space-y-4 pt-2 border-t border-[#F1F5F9]">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="org_name">Organization Name</Label>
+                    <Input
+                      id="org_name"
+                      placeholder="Lagos General Hospital"
+                      value={form.org_name}
+                      onChange={(e) => setForm({ ...form, org_name: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Organization Type</Label>
+                    <Select value={form.org_type} onValueChange={(v) => setForm({ ...form, org_type: v })}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {orgTypeOptions.map((o) => (
+                          <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="reg_number">Registration Number <span className="text-[#94A3B8]">(optional)</span></Label>
+                  <Input
+                    id="reg_number"
+                    placeholder="RC-1234567"
+                    value={form.registration_number}
+                    onChange={(e) => setForm({ ...form, registration_number: e.target.value })}
+                  />
+                </div>
+              </div>
+            )}
 
             <Button type="submit" className="w-full" loading={loading}>
               {loading ? "Creating account..." : "Create account"}
