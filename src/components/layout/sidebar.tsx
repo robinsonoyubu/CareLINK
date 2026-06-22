@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Users, Building2, Heart, Calendar, UserCheck,
   BarChart3, MessageSquare, Settings, LogOut, ClipboardList,
-  Activity, Shield, Briefcase, ChevronLeft, ChevronRight
+  Activity, Shield, Briefcase, ChevronLeft, ChevronRight, FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -22,29 +22,111 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, roles: ["admin", "professional", "organization", "client"] },
-  { label: "Workforce", href: "/workforce", icon: Users, roles: ["admin"] },
-  { label: "Professionals", href: "/professionals", icon: UserCheck, roles: ["admin"] },
-  { label: "Organizations", href: "/organizations", icon: Building2, roles: ["admin"] },
-  { label: "Clients", href: "/clients", icon: Heart, roles: ["admin"] },
-  { label: "Assignments", href: "/assignments", icon: Briefcase, roles: ["admin", "professional"] },
-  { label: "Scheduling", href: "/scheduling", icon: Calendar, roles: ["admin", "professional"] },
-  { label: "Performance", href: "/performance", icon: ClipboardList, roles: ["admin", "professional"] },
-  { label: "Messages", href: "/messages", icon: MessageSquare, roles: ["admin", "professional"] },
-  { label: "My Profile", href: "/professionals/me", icon: UserCheck, roles: ["professional"] },
-  { label: "My Cases", href: "/clients/cases", icon: Activity, roles: ["client"] },
-  { label: "Bookings", href: "/clients/bookings", icon: Calendar, roles: ["client", "organization"] },
-  { label: "Staff Requests", href: "/organizations/requests", icon: ClipboardList, roles: ["organization"] },
-  { label: "Analytics", href: "/admin/analytics", icon: BarChart3, roles: ["admin"] },
-  { label: "Admin", href: "/admin", icon: Shield, roles: ["admin"] },
-  { label: "Settings", href: "/settings", icon: Settings, roles: ["admin", "professional", "organization", "client"] },
+  {
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: LayoutDashboard,
+    roles: ["admin", "professional", "organization", "client"],
+  },
+  {
+    label: "Workforce",
+    href: "/workforce",
+    icon: Users,
+    roles: ["admin"],
+  },
+  {
+    label: "Professionals",
+    href: "/professionals",
+    icon: UserCheck,
+    roles: ["admin"],
+  },
+  {
+    label: "Organizations",
+    href: "/organizations",
+    icon: Building2,
+    roles: ["admin"],
+  },
+  {
+    label: "Clients",
+    href: "/clients",
+    icon: Heart,
+    roles: ["admin"],
+  },
+  {
+    label: "Assignments",
+    href: "/assignments",
+    icon: Briefcase,
+    roles: ["admin", "professional"],
+  },
+  {
+    label: "Scheduling",
+    href: "/scheduling",
+    icon: Calendar,
+    roles: ["admin", "professional"],
+  },
+  {
+    label: "Performance",
+    href: "/performance",
+    icon: ClipboardList,
+    roles: ["admin", "professional"],
+  },
+  {
+    label: "Messages",
+    href: "/messages",
+    icon: MessageSquare,
+    roles: ["admin", "professional"],
+  },
+  {
+    label: "CV Builder",
+    href: "/cv-builder",
+    icon: FileText,
+    roles: ["admin", "professional"],
+  },
+  {
+    label: "My Cases",
+    href: "/clients/cases",
+    icon: Activity,
+    roles: ["client"],
+  },
+  {
+    label: "Bookings",
+    href: "/clients/bookings",
+    icon: Calendar,
+    roles: ["client", "organization"],
+  },
+  {
+    label: "Staff Requests",
+    href: "/organizations/requests",
+    icon: ClipboardList,
+    roles: ["organization"],
+  },
+  {
+    label: "Analytics",
+    href: "/admin/analytics",
+    icon: BarChart3,
+    roles: ["admin"],
+  },
+  {
+    label: "Admin",
+    href: "/admin",
+    icon: Shield,
+    roles: ["admin"],
+  },
+  {
+    label: "Settings",
+    href: "/settings",
+    icon: Settings,
+    roles: ["admin", "professional", "organization", "client"],
+  },
 ];
 
 export function Sidebar({ role, userName, userEmail, avatarUrl, onSignOut }: SidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
-  const visibleItems = navItems.filter((item) => !item.roles || item.roles.includes(role));
+  const visibleItems = navItems.filter(
+    (item) => !item.roles || item.roles.includes(role)
+  );
 
   return (
     <aside
@@ -53,6 +135,7 @@ export function Sidebar({ role, userName, userEmail, avatarUrl, onSignOut }: Sid
         collapsed ? "w-16" : "w-64"
       )}
     >
+      {/* Logo */}
       <div className={cn("flex items-center gap-3 px-4 py-5 border-b border-white/10", collapsed && "justify-center px-2")}>
         <div className="flex-shrink-0 w-8 h-8 bg-white rounded-lg flex items-center justify-center">
           <span className="text-[#0F4C81] font-bold text-sm">cL</span>
@@ -65,6 +148,7 @@ export function Sidebar({ role, userName, userEmail, avatarUrl, onSignOut }: Sid
         )}
       </div>
 
+      {/* Collapse toggle */}
       <button
         onClick={() => setCollapsed(!collapsed)}
         className="absolute -right-3 top-16 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#0F4C81] shadow-sm hover:shadow-md transition-shadow"
@@ -73,6 +157,7 @@ export function Sidebar({ role, userName, userEmail, avatarUrl, onSignOut }: Sid
         {collapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
       </button>
 
+      {/* Nav items */}
       <nav className="flex-1 overflow-y-auto py-4 px-2">
         <ul className="space-y-0.5">
           {visibleItems.map((item) => {
@@ -100,6 +185,7 @@ export function Sidebar({ role, userName, userEmail, avatarUrl, onSignOut }: Sid
         </ul>
       </nav>
 
+      {/* User section */}
       <div className={cn("border-t border-white/10 p-3", collapsed && "px-2")}>
         {!collapsed ? (
           <div className="flex items-center gap-3">
