@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* careLINK Brand Colors */
+  --color-primary: #0F4C81;
+  --color-primary-dark: #0a3560;
+  --color-primary-light: #1a6ab5;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #22C55E;
+  --color-secondary-dark: #16a34a;
+  --color-secondary-foreground: #ffffff;
+
+  --color-accent: #F59E0B;
+  --color-accent-foreground: #ffffff;
+
+  --color-destructive: #EF4444;
+  --color-destructive-foreground: #ffffff;
+
+  --color-muted: #F1F5F9;
+  --color-muted-foreground: #64748B;
+
+  --color-border: #E2E8F0;
+  --color-input: #E2E8F0;
+  --color-ring: #0F4C81;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #0F172A;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0F172A;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0B1628;
+    --foreground: #F1F5F9;
+    --color-card: #132038;
+    --color-card-foreground: #F1F5F9;
+    --color-border: #1E3A5F;
+    --color-muted: #1a2e4a;
+    --color-muted-foreground: #94A3B8;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted-foreground); }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+
+.animate-fade-in { animation: fadeIn 0.3s ease-out; }
+.animate-slide-in { animation: slideInLeft 0.3s ease-out; }
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-muted) 25%, color-mix(in srgb, var(--color-muted) 80%, white) 50%, var(--color-muted) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@media print {
+  .no-print { display: none !important; }
+}
