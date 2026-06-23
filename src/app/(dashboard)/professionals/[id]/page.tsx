@@ -38,7 +38,7 @@ export default async function ProfessionalProfilePage({ params }: { params: Prom
     profiles: { id: string; full_name: string; email: string; phone: string | null; avatar_url: string | null; address: string | null } | { id: string; full_name: string; email: string; phone: string | null; avatar_url: string | null; address: string | null }[];
   };
   const pro = rawPro as ProRow;
-  const profile = Array.isArray(pro.profiles) ? pro.profiles[0] : pro.profiles;
+  const professionalProfile = Array.isArray(pro.profiles) ? pro.profiles[0] : pro.profiles;
 
   // Recent scorecards
   const { data: scorecards } = await supabase
@@ -61,7 +61,7 @@ export default async function ProfessionalProfilePage({ params }: { params: Prom
 
   return (
     <div className="animate-fade-in">
-      <Header title="Professional Profile" subtitle={profile.full_name} />
+      <Header title="Professional Profile" subtitle={professionalProfile.full_name} />
 
       <div className="p-6 max-w-4xl space-y-6">
         <Link href="/professionals" className="inline-flex items-center gap-1.5 text-sm text-[#64748B] hover:text-[#0F172A]">
@@ -73,13 +73,13 @@ export default async function ProfessionalProfilePage({ params }: { params: Prom
           <CardContent className="p-6">
             <div className="flex flex-col sm:flex-row gap-6">
               <Avatar className="h-20 w-20 flex-shrink-0">
-                <AvatarImage src={profile.avatar_url ?? generateAvatarUrl(profile.full_name)} />
-                <AvatarFallback className="text-2xl">{getInitials(profile.full_name)}</AvatarFallback>
+                <AvatarImage src={professionalProfile.avatar_url ?? generateAvatarUrl(professionalProfile.full_name)} />
+                <AvatarFallback className="text-2xl">{getInitials(professionalProfile.full_name)}</AvatarFallback>
               </Avatar>
               <div className="flex-1">
                 <div className="flex flex-wrap items-start gap-3 mb-3">
                   <div>
-                    <h2 className="text-xl font-bold text-[#0F172A]">{profile.full_name}</h2>
+                    <h2 className="text-xl font-bold text-[#0F172A]">{professionalProfile.full_name}</h2>
                     <p className="text-sm text-[#64748B]">{humanizeProfession(pro.profession)}{pro.specialty && ` — ${pro.specialty}`}</p>
                   </div>
                   <div className="flex gap-2 ml-auto flex-wrap items-center">
@@ -118,9 +118,9 @@ export default async function ProfessionalProfilePage({ params }: { params: Prom
                 </div>
 
                 <div className="flex flex-wrap gap-4 text-sm text-[#64748B]">
-                  {profile.phone && <span className="flex items-center gap-1"><Phone className="h-3.5 w-3.5" />{profile.phone}</span>}
-                  <span className="flex items-center gap-1"><Mail className="h-3.5 w-3.5" />{profile.email}</span>
-                  {profile.address && <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{profile.address}</span>}
+                  {professionalProfile.phone && <span className="flex items-center gap-1"><Phone className="h-3.5 w-3.5" />{professionalProfile.phone}</span>}
+                  <span className="flex items-center gap-1"><Mail className="h-3.5 w-3.5" />{professionalProfile.email}</span>
+                  {professionalProfile.address && <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{professionalProfile.address}</span>}
                 </div>
               </div>
             </div>
