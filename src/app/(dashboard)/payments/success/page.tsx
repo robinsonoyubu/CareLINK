@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -9,6 +9,18 @@ import { Button } from "@/components/ui/button";
 type VerifyResult = { ok: boolean; amount?: number; error?: string };
 
 export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-[#0F4C81]" />
+      </div>
+    }>
+      <PaymentSuccessContent />
+    </Suspense>
+  );
+}
+
+function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const reference = searchParams.get("reference") ?? searchParams.get("trxref");
   const [result, setResult] = useState<VerifyResult | null>(null);
@@ -57,12 +69,8 @@ export default function PaymentSuccessPage() {
       </div>
 
       <div className="flex gap-3">
-        <Button asChild>
-          <Link href="/clients/bookings">View Bookings</Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link href="/dashboard">Dashboard</Link>
-        </Button>
+        <Link href="/clients/bookings"><Button>View Bookings</Button></Link>
+        <Link href="/dashboard"><Button variant="outline">Dashboard</Button></Link>
       </div>
     </div>
   );
