@@ -68,6 +68,59 @@ export default function MessagesPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Live updates: subscribe to new messages in the active conversation
+  useEffect(() => {
+    if (!activeConv) return;
+    const channel = supabase
+      .channel(`messages:${activeConv.id}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `conversation_id=eq.${activeConv.id}`,
+        },
+        async (payload) => {
+          const incoming = payload.new as Message;
+          // Skip if already present (e.g. our own optimistic insert)
+          let alreadyPresent = false;
+          setMessages((prev) => {
+            if (prev.some((m) => m.id === incoming.id)) {
+              alreadyPresent = true;
+              return prev;
+            }
+            return prev;
+          });
+          if (alreadyPresent) return;
+
+          let senderName = "Unknown";
+          if (incoming.sender_id === currentUserId) {
+            senderName = userProfile?.full_name ?? "You";
+          } else {
+            const { data: prof } = await supabase
+              .from("profiles")
+              .select("full_name")
+              .eq("id", incoming.sender_id)
+              .single();
+            senderName = prof?.full_name ?? "Unknown";
+          }
+
+          setMessages((prev) =>
+            prev.some((m) => m.id === incoming.id)
+              ? prev
+              : [...prev, { ...incoming, sender_name: senderName }]
+          );
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeConv?.id, currentUserId, userProfile?.full_name]);
+
   async function loadMessages(conv: Conversation) {
     setActiveConv(conv);
     const { data } = await supabase
@@ -99,7 +152,19 @@ export default function MessagesPage() {
     }).select().single();
 
     if (data) {
-      setMessages((prev) => [...prev, { ...data, sender_name: userProfile?.full_name ?? "You" }]);
+      setMessages((prev) =>
+        prev.some((m) => m.id === data.id)
+          ? prev
+          : [...prev, { ...data, sender_name: userProfile?.full_name ?? "You" }]
+      );
+      // Touch the conversation so it re-sorts to the top of the list
+      const now = new Date().toISOString();
+      await supabase.from("conversations").update({ updated_at: now } as never).eq("id", activeConv.id);
+      setConversations((prev) =>
+        [...prev]
+          .map((c) => (c.id === activeConv.id ? { ...c, updated_at: now } : c))
+          .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+      );
     }
     setNewMessage("");
     setSending(false);
