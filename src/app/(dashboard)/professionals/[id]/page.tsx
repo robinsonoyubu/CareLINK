@@ -19,8 +19,8 @@ export default async function ProfessionalProfilePage({ params }: { params: Prom
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  const isAdmin = profile?.role === "admin";
+  const { data: viewerProfile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+  const isAdmin = viewerProfile?.role === "admin";
 
   const { data: rawPro } = await supabase
     .from("professionals")

@@ -79,6 +79,18 @@ export const cvGeneratorSchema = z.object({
   professional_summary: z.string().optional(),
 });
 
+export const careerDocSchema = z.object({
+  doc_type: z.enum(["cover_letter", "nhs_statement", "interview_prep", "career_guidance", "recommendation_letter"]),
+  profession: z.string().min(2),
+  full_name: z.string().min(2),
+  years_of_experience: z.coerce.number().min(0).optional(),
+  specialty: z.string().optional(),
+  // Free-form context: job/role description, career goals, supervisor info, etc.
+  details: z.string().min(1),
+});
+
+export type CareerDocInput = z.infer<typeof careerDocSchema>;
+
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterProfessionalInput = z.infer<typeof registerProfessionalSchema>;
 export type RegisterOrganizationInput = z.infer<typeof registerOrganizationSchema>;

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Users, Building2, Heart, Calendar, UserCheck,
   BarChart3, MessageSquare, Settings, LogOut, ClipboardList,
-  Activity, Shield, Briefcase, ChevronLeft, ChevronRight, FileText
+  Activity, Shield, Briefcase, ChevronLeft, ChevronRight, FileText, Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -80,6 +80,12 @@ const navItems = [
     label: "CV Builder",
     href: "/cv-builder",
     icon: FileText,
+    roles: ["admin", "professional"],
+  },
+  {
+    label: "Career Center",
+    href: "/career-center",
+    icon: Sparkles,
     roles: ["admin", "professional"],
   },
   {
