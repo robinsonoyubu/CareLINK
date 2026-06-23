@@ -1,29 +1,42 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
-}
-
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, error, ...props }, ref) => {
-    return (
-      <div className="w-full">
-        <input
-          type={type}
-          ref={ref}
-          className={cn(
-            "flex h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F4C81] focus-visible:border-[#0F4C81] disabled:cursor-not-allowed disabled:opacity-50 transition-colors",
-            error && "border-red-500 focus-visible:ring-red-500",
-            className
-          )}
-          {...props}
-        />
-        {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
-      </div>
-    );
-  }
-);
+export const Input = React.forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement>
+>(({ className, type = "text", ...props }, ref) => (
+  <input
+    ref={ref}
+    type={type}
+    className={cn(
+      "h-11 w-full rounded-[var(--radius-sm)] border border-border bg-card px-3.5 text-[0.95rem] text-ink shadow-sm transition-colors",
+      "placeholder:text-muted-foreground/70",
+      "focus-visible:border-pine focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-pine",
+      className,
+    )}
+    {...props}
+  />
+));
 Input.displayName = "Input";
 
-export { Input };
+export function Field({
+  label,
+  htmlFor,
+  children,
+  hint,
+}: {
+  label: string;
+  htmlFor: string;
+  children: React.ReactNode;
+  hint?: string;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={htmlFor} className="block text-sm font-medium text-ink">
+        {label}
+      </label>
+      {children}
+      {hint ? <p className="text-xs text-muted-foreground">{hint}</p> : null}
+    </div>
+  );
+}

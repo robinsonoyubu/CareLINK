@@ -1,103 +1,124 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+/*
+  careLINK design system
+  Brand metaphor: "the link" — connecting vetted care to the home.
+  Palette is deliberately warm + grounded (deep pine + marigold), not clinical blue.
+*/
 
-  /* careLINK Brand Colors */
-  --color-primary: #0F4C81;
-  --color-primary-dark: #0a3560;
-  --color-primary-light: #1a6ab5;
-  --color-primary-foreground: #ffffff;
+@theme {
+  /* Core palette */
+  --color-pine: #0c4a40;
+  --color-pine-deep: #07332c;
+  --color-pine-soft: #14655a;
+  --color-marigold: #f4a638;
+  --color-marigold-deep: #d6861a;
+  --color-ink: #0e1a18;
+  --color-mist: #f1f5f2;
+  --color-sage: #ccddd4;
+  --color-sage-soft: #e3ede7;
+  --color-linen: #ffffff;
+  --color-clay: #b4533a; /* used sparingly for destructive/alerts */
 
-  --color-secondary: #22C55E;
-  --color-secondary-dark: #16a34a;
-  --color-secondary-foreground: #ffffff;
-
-  --color-accent: #F59E0B;
-  --color-accent-foreground: #ffffff;
-
-  --color-destructive: #EF4444;
-  --color-destructive-foreground: #ffffff;
-
-  --color-muted: #F1F5F9;
-  --color-muted-foreground: #64748B;
-
-  --color-border: #E2E8F0;
-  --color-input: #E2E8F0;
-  --color-ring: #0F4C81;
-
+  /* Semantic roles */
+  --color-background: #f7faf8;
+  --color-foreground: #0e1a18;
   --color-card: #ffffff;
-  --color-card-foreground: #0F172A;
+  --color-card-foreground: #0e1a18;
+  --color-muted: #eef3f0;
+  --color-muted-foreground: #51635d;
+  --color-border: #d7e3dc;
+  --color-ring: #0c4a40;
 
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  /* Type */
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+
+  /* Radii */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.125rem;
+  --radius-xl: 1.75rem;
+
+  /* Shadows — soft, warm, never harsh */
+  --shadow-soft: 0 1px 2px rgba(12, 74, 64, 0.04), 0 8px 24px rgba(12, 74, 64, 0.06);
+  --shadow-lift: 0 2px 4px rgba(12, 74, 64, 0.05), 0 18px 48px rgba(12, 74, 64, 0.12);
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #0F172A;
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0B1628;
-    --foreground: #F1F5F9;
-    --color-card: #132038;
-    --color-card-foreground: #F1F5F9;
-    --color-border: #1E3A5F;
-    --color-muted: #1a2e4a;
-    --color-muted-foreground: #94A3B8;
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
+
+  ::selection {
+    background-color: var(--color-marigold);
+    color: var(--color-pine-deep);
+  }
+
+  /* Visible, on-brand keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid var(--color-pine);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ---- Signature: the link line ---- */
+@keyframes link-pulse {
+  0% { offset-distance: 0%; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
 }
 
-/* Focus ring */
-:focus-visible {
-  outline: 2px solid var(--color-ring);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm);
+@keyframes draw-link {
+  from { stroke-dashoffset: var(--link-length, 600); }
+  to { stroke-dashoffset: 0; }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-muted-foreground); }
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-16px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-@keyframes shimmer {
-  from { background-position: -200% 0; }
-  to { background-position: 200% 0; }
+
+.animate-rise {
+  animation: rise-in 0.7s var(--ease-out-soft) both;
 }
 
-.animate-fade-in { animation: fadeIn 0.3s ease-out; }
-.animate-slide-in { animation: slideInLeft 0.3s ease-out; }
-
-/* Skeleton shimmer */
-.skeleton {
-  background: linear-gradient(90deg, var(--color-muted) 25%, color-mix(in srgb, var(--color-muted) 80%, white) 50%, var(--color-muted) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+.link-path {
+  stroke-dasharray: var(--link-length, 600);
+  animation: draw-link 1.6s var(--ease-out-soft) 0.2s both;
 }
 
-@media print {
-  .no-print { display: none !important; }
+.link-bead {
+  offset-path: var(--link-offset-path);
+  animation: link-pulse 3.2s var(--ease-out-soft) 1.4s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .link-path { stroke-dashoffset: 0; }
 }
