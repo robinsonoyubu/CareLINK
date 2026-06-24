@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Send, MessageSquare, Users } from "lucide-react";
 import { getInitials, formatRelativeTime, cn } from "@/lib/utils";
+import { NewConversationDialog } from "@/components/messages/new-conversation-dialog";
 
 type Message = {
   id: string;
@@ -140,6 +141,15 @@ export default function MessagesPage() {
     setMessages(msgs.map((m: Message) => ({ ...m, sender_name: profileMap[m.sender_id] ?? "Unknown" })));
   }
 
+  function handleConversationCreated(conv: Conversation) {
+    setConversations((prev) =>
+      prev.some((c) => c.id === conv.id)
+        ? prev
+        : [conv, ...prev].sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+    );
+    loadMessages(conv);
+  }
+
   async function sendMessage(e: React.FormEvent) {
     e.preventDefault();
     if (!newMessage.trim() || !activeConv || !currentUserId) return;
@@ -196,6 +206,9 @@ export default function MessagesPage() {
           <p className="text-xs font-semibold text-[#64748B] uppercase tracking-wider px-1 mb-1">
             Conversations ({conversations.length})
           </p>
+          {currentUserId && (
+            <NewConversationDialog currentUserId={currentUserId} onCreated={handleConversationCreated} />
+          )}
           {conversations.length === 0 ? (
             <Card>
               <CardContent className="p-4 text-center">
