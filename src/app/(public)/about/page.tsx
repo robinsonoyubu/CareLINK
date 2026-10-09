@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Heart, Shield, Award, Globe } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Us | careLINK by RAFFATI",
-  description: "RAFFATI Healthcare — connecting quality healthcare professionals to every home across Nigeria and beyond.",
+  title: "About Us | MedLINK by RGH",
+  description: "RGH — connecting quality healthcare professionals to every home across Nigeria and beyond.",
 };
 
 export default function AboutPage() {
@@ -15,7 +15,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="text-xl font-bold text-[#0F4C81]">
             care<span className="text-[#22C55E]">LINK</span>
-            <span className="text-xs text-[#64748B] font-normal ml-1">by RAFFATI</span>
+            <span className="text-xs text-[#64748B] font-normal ml-1">by RGH</span>
           </Link>
           <div className="flex items-center gap-4">
             <Link href="/services" className="text-sm text-[#64748B] hover:text-[#0F4C81]">Services</Link>
@@ -30,7 +30,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="bg-gradient-to-br from-[#0F4C81] to-[#1a6eb5] py-20 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">About RAFFATI Healthcare</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold mb-6">About RGH</h1>
           <p className="text-xl text-blue-100 max-w-2xl mx-auto">
             Nigeria’s premier healthcare workforce management platform — connecting quality care to every home.
           </p>
@@ -47,13 +47,13 @@ export default function AboutPage() {
                 Transforming Healthcare Delivery Across Nigeria
               </h2>
               <p className="text-[#64748B] leading-relaxed mb-4">
-                RAFFATI Healthcare was founded on a simple but powerful belief: every Nigerian family deserves access to professional, compassionate healthcare — in their home, at their convenience.
+                RGH was founded on a simple but powerful belief: every Nigerian family deserves access to professional, compassionate healthcare — in their home, at their convenience.
               </p>
               <p className="text-[#64748B] leading-relaxed mb-4">
-                We bridge the gap between skilled healthcare professionals and the families, hospitals, and organisations that need them. Through our proprietary careLINK platform, we manage every aspect of the care journey — from matching and deployment to performance monitoring and payroll.
+                We bridge the gap between skilled healthcare professionals and the families, hospitals, and organisations that need them. Through our proprietary MedLINK platform, we manage every aspect of the care journey — from matching and deployment to performance monitoring and payroll.
               </p>
               <p className="text-[#64748B] leading-relaxed">
-                Only RAFFATI admin deploys staff. We maintain complete control over every placement, ensuring the highest standards of care and accountability.
+                Only RGH deploys staff. We maintain complete control over every placement, ensuring the highest standards of care and accountability.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-6">
@@ -121,7 +121,7 @@ export default function AboutPage() {
       {/* CTA */}
       <section className="bg-[#0F4C81] py-16 text-white text-center">
         <div className="max-w-2xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-4">Join the careLINK Network</h2>
+          <h2 className="text-3xl font-bold mb-4">Join the MedLINK Network</h2>
           <p className="text-blue-100 mb-8">Whether you are a healthcare professional or an organisation seeking care solutions, we have a place for you.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/register" className="bg-white text-[#0F4C81] font-semibold px-8 py-3 rounded-xl hover:bg-gray-50 transition-colors">
@@ -136,7 +136,7 @@ export default function AboutPage() {
 
       {/* Footer */}
       <footer className="bg-[#0F172A] py-8 text-center text-[#64748B] text-sm">
-        <p>© {new Date().getFullYear()} RAFFATI Healthcare. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} RGH. All rights reserved.</p>
       </footer>
     </div>
   );

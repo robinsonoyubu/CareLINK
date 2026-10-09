@@ -16,7 +16,7 @@ const chatSchema = z.object({
 });
 
 const systemPrompts: Record<string, string> = {
-  general: `You are a helpful AI assistant for careLINK by RAFFATI, Nigeria's premier healthcare workforce management platform.
+  general: `You are a helpful AI assistant for MedLINK by RGH, Nigeria's premier healthcare workforce management platform.
 You help healthcare professionals, clients, and organizations with questions about staffing, care services, and platform features.
 Be professional, empathetic, and knowledgeable about Nigerian healthcare standards.`,
 

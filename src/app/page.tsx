@@ -14,8 +14,8 @@ export default function LandingPage() {
                 <span className="text-white font-bold text-sm">cL</span>
               </div>
               <div>
-                <p className="font-bold text-[#0F172A] text-sm leading-tight">careLINK</p>
-                <p className="text-[#64748B] text-xs leading-tight">by RAFFATI</p>
+                <p className="font-bold text-[#0F172A] text-sm leading-tight">MedLINK</p>
+                <p className="text-[#64748B] text-xs leading-tight">by RGH</p>
               </div>
             </div>
             <div className="hidden md:flex items-center gap-8">
@@ -61,7 +61,7 @@ export default function LandingPage() {
                 {" "}to Every Home
               </h1>
               <p className="text-lg text-white/80 max-w-xl mb-8 leading-relaxed">
-                careLINK by RAFFATI deploys verified nurses, caregivers, physiotherapists, and doctors to families, hospitals, and organizations across Nigeria.
+                MedLINK by RGH deploys verified nurses, caregivers, physiotherapists, and doctors to families, hospitals, and organizations across Nigeria.
               </p>
               <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
                 <Link href="/register?role=client">
@@ -144,7 +144,7 @@ export default function LandingPage() {
               Comprehensive Healthcare Solutions
             </h2>
             <p className="text-[#64748B] max-w-2xl mx-auto">
-              From home-based nursing care to full hospital staffing, RAFFATI delivers verified healthcare professionals tailored to your needs.
+              From home-based nursing care to full hospital staffing, RGH delivers verified healthcare professionals tailored to your needs.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -200,12 +200,12 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="text-[#0F4C81] font-semibold text-sm uppercase tracking-widest mb-2">Why RAFFATI</p>
+              <p className="text-[#0F4C81] font-semibold text-sm uppercase tracking-widest mb-2">Why RGH</p>
               <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-6">
                 Healthcare Staffing You Can Trust
               </h2>
               <p className="text-[#64748B] mb-8 leading-relaxed">
-                Every professional on careLINK is rigorously vetted, background-checked, and credentialed. We don&apos;t just match — we monitor, evaluate, and guarantee quality care.
+                Every professional on MedLINK is rigorously vetted, background-checked, and credentialed. We don&apos;t just match — we monitor, evaluate, and guarantee quality care.
               </p>
               <div className="space-y-4">
                 {whyChooseUs.map((item) => (
@@ -271,7 +271,7 @@ export default function LandingPage() {
             Ready to Experience Better Care?
           </h2>
           <p className="text-white/80 mb-8 text-lg max-w-2xl mx-auto">
-            Whether you need care at home or you&apos;re a healthcare professional seeking meaningful work, careLINK connects you with the right opportunity.
+            Whether you need care at home or you&apos;re a healthcare professional seeking meaningful work, MedLINK connects you with the right opportunity.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
             <Link href="/register?role=client">
@@ -299,8 +299,8 @@ export default function LandingPage() {
                   <span className="text-white font-bold text-sm">cL</span>
                 </div>
                 <div>
-                  <p className="font-bold text-white text-sm">careLINK</p>
-                  <p className="text-white/40 text-xs">by RAFFATI</p>
+                  <p className="font-bold text-white text-sm">MedLINK</p>
+                  <p className="text-white/40 text-xs">by RGH</p>
                 </div>
               </div>
               <p className="text-white/50 text-sm leading-relaxed">
@@ -324,7 +324,7 @@ export default function LandingPage() {
           </div>
           <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-white/30 text-xs">
-              &copy; {new Date().getFullYear()} RAFFATI Healthcare Agency. All rights reserved.
+              &copy; {new Date().getFullYear()} RGH. All rights reserved.
             </p>
             <div className="flex items-center gap-4">
               {["Privacy Policy", "Terms of Service", "Contact"].map((item) => (
@@ -402,7 +402,7 @@ const services = [
 const howItWorks = [
   { title: "Submit a Request", description: "Tell us what care service you need, when, and where." },
   { title: "AI Matching", description: "Our AI engine matches you with the best available professionals." },
-  { title: "RAFFATI Approval", description: "Our admin reviews and confirms the perfect match for your needs." },
+  { title: "RGH Approval", description: "Our admin reviews and confirms the perfect match for your needs." },
   { title: "Care Begins", description: "Your verified professional arrives. We monitor quality throughout." },
 ];
 
@@ -424,17 +424,17 @@ const testimonials = [
   {
     name: "Mrs. Okonkwo",
     role: "Home-Care Client, Lekki",
-    quote: "RAFFATI sent us a wonderful nurse for my mother's post-surgery care. The professionalism and compassion were outstanding.",
+    quote: "RGH sent us a wonderful nurse for my mother's post-surgery care. The professionalism and compassion were outstanding.",
   },
   {
     name: "Dr. Amara Osei",
     role: "Medical Director, Lagos",
-    quote: "careLINK has transformed how we source supplemental staff. Verified, reliable, and always on time.",
+    quote: "MedLINK has transformed how we source supplemental staff. Verified, reliable, and always on time.",
   },
   {
     name: "Nurse Chidinma",
     role: "Registered Nurse",
-    quote: "Joining RAFFATI was the best career decision I made. Great placements, fair pay, and professional development.",
+    quote: "Joining RGH was the best career decision I made. Great placements, fair pay, and professional development.",
   },
 ];
 
@@ -460,7 +460,7 @@ const footerLinks = [
   {
     title: "Company",
     links: [
-      { label: "About RAFFATI", href: "/about" },
+      { label: "About RGH", href: "/about" },
       { label: "Contact Us", href: "/contact" },
       { label: "Careers", href: "/careers" },
       { label: "Privacy", href: "/privacy" },

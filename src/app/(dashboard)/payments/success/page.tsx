@@ -69,8 +69,8 @@ function PaymentSuccessContent() {
       </div>
 
       <div className="flex gap-3">
-        <Link href="/clients/bookings"><Button>View Bookings</Button></Link>
-        <Link href="/dashboard"><Button variant="outline">Dashboard</Button></Link>
+        <Link href="/bookings"><Button>View Bookings</Button></Link>
+        <Link href="/dashboard"><Button variant="outline">Home</Button></Link>
       </div>
     </div>
   );

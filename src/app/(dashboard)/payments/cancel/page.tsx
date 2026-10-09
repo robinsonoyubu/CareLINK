@@ -15,8 +15,8 @@ export default function PaymentCancelPage() {
         </p>
       </div>
       <div className="flex gap-3">
-        <Link href="/clients/bookings"><Button>Back to Bookings</Button></Link>
-        <Link href="/dashboard"><Button variant="outline">Dashboard</Button></Link>
+        <Link href="/bookings"><Button>Back to Bookings</Button></Link>
+        <Link href="/dashboard"><Button variant="outline">Home</Button></Link>
       </div>
     </div>
   );

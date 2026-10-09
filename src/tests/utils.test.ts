@@ -43,9 +43,10 @@ describe("capitalize", () => {
 
 describe("humanizeRole", () => {
   it("maps roles to display names", () => {
-    expect(humanizeRole("admin")).toBe("Administrator");
+    expect(humanizeRole("admin")).toBe("RGH Administrator");
     expect(humanizeRole("professional")).toBe("Healthcare Professional");
-    expect(humanizeRole("client")).toBe("Home-Care Client");
+    expect(humanizeRole("client")).toBe("Client");
+    expect(humanizeRole("provider")).toBe("Service Provider");
   });
 });
 

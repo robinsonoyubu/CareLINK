@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
       amount: Math.round(amount * 100), // cents
       currency: currency.toLowerCase(),
       metadata: { assignment_id, user_id: user.id },
-      description: `careLINK: ${assignment.title}`,
+      description: `MedLINK: ${assignment.title}`,
     });
 
     // Record pending payment
