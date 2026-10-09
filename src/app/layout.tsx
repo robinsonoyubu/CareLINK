@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -10,26 +11,26 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | careLINK by RAFFATI",
-    default: "careLINK by RAFFATI — Connecting Quality Care to Every Home",
+    template: "%s | MedLINK by RGH",
+    default: "MedLINK by RGH — Hospitals, Diagnostics, Pharmacy, Ambulance & Verified Care",
   },
   description:
-    "careLINK by RAFFATI is Nigeria's premier healthcare workforce management platform, connecting quality care professionals with families, hospitals, and organizations.",
+    "MedLINK by RGH connects you to hospitals, diagnostics, pharmacies, ambulance & paramedics and RGH-verified healthcare professionals across Nigeria.",
   keywords: [
     "healthcare staffing Nigeria",
     "home care Nigeria",
     "nurses for hire",
     "caregiver services",
     "physiotherapy",
-    "RAFFATI",
-    "careLINK",
+    "RGH",
+    "MedLINK",
   ],
-  authors: [{ name: "RAFFATI Healthcare Agency" }],
+  authors: [{ name: "RGH" }],
   openGraph: {
     type: "website",
     locale: "en_NG",
-    siteName: "careLINK by RAFFATI",
-    title: "careLINK by RAFFATI — Connecting Quality Care to Every Home",
+    siteName: "MedLINK by RGH",
+    title: "MedLINK by RGH — Connecting Quality Care to Every Home",
     description:
       "Nigeria's premier healthcare workforce management platform.",
   },
@@ -42,7 +43,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        {children}
+        <Toaster richColors position="top-center" />
+      </body>
     </html>
   );
 }

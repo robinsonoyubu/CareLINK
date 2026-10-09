@@ -44,7 +44,7 @@ export default async function OrgRequestsPage() {
       <div className="p-6 space-y-4">
         <div className="rounded-xl bg-amber-50 border border-amber-200 px-4 py-3">
           <p className="text-sm text-amber-800">
-            <strong>Note:</strong> All staff deployments are managed by RAFFATI admin. You will be notified once a professional is assigned to your request.
+            <strong>Note:</strong> All staff deployments are managed by RGH admin. You will be notified once a professional is assigned to your request.
           </p>
         </div>
 
@@ -84,9 +84,9 @@ export default async function OrgRequestsPage() {
               <Building2 className="h-8 w-8 text-[#0F4C81]" />
             </div>
             <h3 className="text-base font-semibold text-[#0F172A] mb-1">No requests yet</h3>
-            <p className="text-sm text-[#64748B] mb-4">RAFFATI admin will create service requests on your behalf. Contact us to discuss your staffing needs.</p>
+            <p className="text-sm text-[#64748B] mb-4">RGH will create service requests on your behalf. Contact us to discuss your staffing needs.</p>
             <Link href="/contact">
-              <Button variant="outline">Contact RAFFATI</Button>
+              <Button variant="outline">Contact RGH</Button>
             </Link>
           </div>
         )}

@@ -119,7 +119,7 @@ export default function RegisterPage() {
       <CardHeader className="pb-4">
         <CardTitle className="text-2xl font-bold text-[#0F172A]">Create account</CardTitle>
         <CardDescription className="text-[#64748B]">
-          Join the careLINK platform — choose your account type
+          Join the MedLINK platform — choose your account type
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -306,7 +306,7 @@ export default function RegisterPage() {
             </Button>
 
             <p className="text-xs text-center text-[#64748B]">
-              By registering, you agree to RAFFATI&apos;s{" "}
+              By registering, you agree to RGH&apos;s{" "}
               <Link href="/terms" className="text-[#0F4C81] hover:underline">Terms of Service</Link>
               {" "}and{" "}
               <Link href="/privacy" className="text-[#0F4C81] hover:underline">Privacy Policy</Link>

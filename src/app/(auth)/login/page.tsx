@@ -54,7 +54,7 @@ function LoginForm() {
       <CardHeader className="space-y-1 pb-4">
         <CardTitle className="text-2xl font-bold text-[#0F172A]">Welcome back</CardTitle>
         <CardDescription className="text-[#64748B]">
-          Sign in to your careLINK account
+          Sign in to your MedLINK account
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -53,10 +53,11 @@ export function capitalize(text: string) {
 
 export function humanizeRole(role: string) {
   const map: Record<string, string> = {
-    admin: "Administrator",
+    admin: "RGH Administrator",
     professional: "Healthcare Professional",
     organization: "Organization",
-    client: "Home-Care Client",
+    client: "Client",
+    provider: "Service Provider",
   };
   return map[role] ?? capitalize(role);
 }
@@ -90,4 +91,14 @@ export function scoreToGrade(score: number): string {
 
 export function generateAvatarUrl(name: string) {
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0F4C81&color=fff&size=128`;
+}
+
+/** ISO timestamp `ms` from now (negative for the past). */
+export function isoFromNow(ms: number) {
+  return new Date(Date.now() + ms).toISOString();
+}
+
+/** True when a date/datetime-local string is in the future. */
+export function isFuture(value: string | null | undefined) {
+  return !!value && new Date(value).getTime() > Date.now();
 }

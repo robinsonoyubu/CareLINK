@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     };
   });
 
-  const prompt = `You are a healthcare staffing matching engine for RAFFATI Healthcare Agency in Nigeria.
+  const prompt = `You are a healthcare staffing matching engine for RGH in Nigeria.
 
 Analyze the following job request and rank the available professionals:
 

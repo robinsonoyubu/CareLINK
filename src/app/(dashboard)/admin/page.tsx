@@ -5,7 +5,7 @@ import { StatsCard } from "@/components/dashboard/stats-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, Briefcase, TrendingUp, Building2, BarChart2, UserPlus } from "lucide-react";
+import { Users, Briefcase, TrendingUp, Building2, BarChart2, UserPlus, BadgeCheck, Landmark, Coins, ShieldAlert, Scale, Store } from "lucide-react";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -71,7 +71,19 @@ export default async function AdminPage() {
         }
       />
 
-      <div className="p-6 space-y-6">
+      <div className="p-4 md:p-6 space-y-6">
+        <nav aria-label="RGH operations" className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+          {RGH_OPS.map((o) => {
+            const Icon = o.icon;
+            return (
+              <Link key={o.href} href={o.href} className="flex flex-col gap-1 rounded-xl border border-[#E2E8F0] bg-white p-4 hover:border-[#0F4C81]/40 hover:shadow-sm transition">
+                <Icon className="h-5 w-5 text-[#0F4C81]" />
+                <span className="text-sm font-semibold">{o.label}</span>
+                <span className="text-xs text-[#64748B]">{o.desc}</span>
+              </Link>
+            );
+          })}
+        </nav>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatsCard title="Total Professionals" value={totalProfessionals ?? 0} icon={Users} iconColor="text-[#0F4C81]" iconBg="bg-[#EBF4FF]" />
           <StatsCard title="Pending Assignments" value={pendingAssignments ?? 0} icon={Briefcase} iconColor="text-[#F59E0B]" iconBg="bg-amber-50" changeType="neutral" />
@@ -150,3 +162,12 @@ export default async function AdminPage() {
     </div>
   );
 }
+
+const RGH_OPS = [
+  { href: "/admin/verification", label: "Verification", desc: "Professional applications & credentials", icon: BadgeCheck },
+  { href: "/admin/payments", label: "Care requests", desc: "Quotes & transfer verification", icon: Landmark },
+  { href: "/disputes", label: "Disputes", desc: "Review, investigate, resolve", icon: Scale },
+  { href: "/admin/earn", label: "Earn governance", desc: "Rates, payouts, ads, fraud", icon: Coins },
+  { href: "/admin/moderation", label: "Moderation", desc: "Health Gist reports", icon: ShieldAlert },
+  { href: "/admin/providers", label: "Providers", desc: "Onboard & verify partners", icon: Store },
+];

@@ -1,7 +1,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED_ROUTES = ["/dashboard", "/professionals", "/organizations", "/clients", "/assignments", "/scheduling", "/workforce", "/performance", "/messages", "/admin", "/settings"];
+const PROTECTED_ROUTES = [
+  "/dashboard", "/professionals", "/organizations", "/clients", "/assignments", "/scheduling", "/workforce", "/performance",
+  "/admin", "/hospitals", "/diagnostics", "/pharmacy", "/ambulance", "/earn", "/health-gist", "/bookings", "/chats",
+  "/notifications", "/profile", "/disputes", "/attendance", "/provider", "/assistant", "/payments", "/career-center", "/cv-builder",
+];
 const AUTH_ROUTES = ["/login", "/register"];
 
 export async function middleware(request: NextRequest) {

@@ -14,8 +14,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             <span className="text-[#0F4C81] font-bold text-sm">cL</span>
           </div>
           <div>
-            <p className="font-bold text-white text-sm leading-tight">careLINK</p>
-            <p className="text-white/60 text-xs leading-tight">by RAFFATI</p>
+            <p className="font-bold text-white text-sm leading-tight">MedLINK</p>
+            <p className="text-white/60 text-xs leading-tight">by RGH</p>
           </div>
         </Link>
         <p className="text-white/60 text-sm hidden sm:block">
@@ -29,7 +29,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
       <footer className="py-4 px-6 text-center">
         <p className="text-white/40 text-xs">
-          &copy; {new Date().getFullYear()} RAFFATI Healthcare Agency. All rights reserved.
+          &copy; {new Date().getFullYear()} RGH. All rights reserved.
         </p>
       </footer>
     </div>

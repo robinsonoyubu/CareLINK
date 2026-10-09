@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Header } from "@/components/layout/header";
 import { Card, CardContent } from "@/components/ui/card";
-import { Bell, Check, CheckCheck, Briefcase, Star, MessageSquare, AlertCircle } from "lucide-react";
+import { Bell, Check, CheckCheck, Briefcase, Star, MessageSquare, AlertCircle, CalendarCheck, CreditCard, FlaskConical, Pill, Ambulance, Coins, Fingerprint, Scale, BadgeCheck, Hourglass } from "lucide-react";
 import { formatRelativeTime } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -23,6 +23,18 @@ const iconMap: Record<string, React.ReactNode> = {
   performance: <Star className="h-4 w-4 text-[#F59E0B]" />,
   message: <MessageSquare className="h-4 w-4 text-[#22C55E]" />,
   alert: <AlertCircle className="h-4 w-4 text-red-500" />,
+  chat: <MessageSquare className="h-4 w-4 text-[#22C55E]" />,
+  booking: <CalendarCheck className="h-4 w-4 text-[#0F4C81]" />,
+  payment: <CreditCard className="h-4 w-4 text-[#0F4C81]" />,
+  result: <FlaskConical className="h-4 w-4 text-purple-600" />,
+  prescription: <Pill className="h-4 w-4 text-[#0F4C81]" />,
+  order: <Pill className="h-4 w-4 text-[#0F4C81]" />,
+  dispatch: <Ambulance className="h-4 w-4 text-red-600" />,
+  waitlist: <Hourglass className="h-4 w-4 text-[#F59E0B]" />,
+  earn: <Coins className="h-4 w-4 text-[#F59E0B]" />,
+  attendance: <Fingerprint className="h-4 w-4 text-[#0F4C81]" />,
+  dispute: <Scale className="h-4 w-4 text-[#0F4C81]" />,
+  verification: <BadgeCheck className="h-4 w-4 text-green-600" />,
 };
 
 export default function NotificationsPage() {
@@ -86,7 +98,8 @@ export default function NotificationsPage() {
         }
       />
 
-      <div className="p-6 max-w-2xl space-y-2">
+      <div className="p-4 md:p-6 max-w-2xl space-y-2">
+        <p className="text-xs text-[#94A3B8]">All MedLINK alerts arrive here. Google Calendar reminders, if connected, are an extra channel — not a second inbox.</p>
         {loading ? (
           <div className="space-y-3">
             {[...Array(5)].map((_, i) => (

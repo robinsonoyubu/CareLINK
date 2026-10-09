@@ -9,6 +9,15 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type LooseTable = {
+  Row: Record<string, any>;
+  Insert: Record<string, any>;
+  Update: Record<string, any>;
+  Relationships: [];
+};
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
 export type Database = {
   public: {
     Tables: {
@@ -17,7 +26,7 @@ export type Database = {
           id: string;
           email: string;
           full_name: string;
-          role: "admin" | "professional" | "organization" | "client";
+          role: "admin" | "professional" | "organization" | "client" | "provider";
           avatar_url: string | null;
           phone: string | null;
           date_of_birth: string | null;
@@ -33,7 +42,7 @@ export type Database = {
           id: string;
           email: string;
           full_name: string;
-          role?: "admin" | "professional" | "organization" | "client";
+          role?: "admin" | "professional" | "organization" | "client" | "provider";
           avatar_url?: string | null;
           phone?: string | null;
           date_of_birth?: string | null;
@@ -52,7 +61,7 @@ export type Database = {
         Row: {
           id: string;
           profile_id: string;
-          profession: "nurse" | "nurse_assistant" | "caregiver" | "physiotherapist" | "doctor";
+          profession: "nurse" | "nurse_assistant" | "caregiver" | "physiotherapist" | "doctor" | "pharmacist" | "laboratory_scientist" | "paramedic" | "occupational_therapist" | "other";
           specialty: string | null;
           years_of_experience: number;
           preferred_location: string | null;
@@ -63,12 +72,21 @@ export type Database = {
           rating: number | null;
           total_assignments: number;
           is_verified: boolean;
+          marital_status: "single" | "married" | "divorced" | "widowed" | "other" | null;
+          application_status: "submitted" | "under_review" | "rgh_verification" | "verified" | "rejected";
+          rejection_reason: string | null;
+          reviewed_by: string | null;
+          reviewed_at: string | null;
+          skills: string[];
+          qualifications: string[];
+          verified_medlink_months: number;
+          rating_count: number;
           created_at: string;
           updated_at: string;
         };
         Insert: {
           profile_id: string;
-          profession: "nurse" | "nurse_assistant" | "caregiver" | "physiotherapist" | "doctor";
+          profession: "nurse" | "nurse_assistant" | "caregiver" | "physiotherapist" | "doctor" | "pharmacist" | "laboratory_scientist" | "paramedic" | "occupational_therapist" | "other";
           specialty?: string | null;
           years_of_experience?: number;
           preferred_location?: string | null;
@@ -79,6 +97,13 @@ export type Database = {
           rating?: number | null;
           total_assignments?: number;
           is_verified?: boolean;
+          marital_status?: "single" | "married" | "divorced" | "widowed" | "other" | null;
+          application_status?: "submitted" | "under_review" | "rgh_verification" | "verified" | "rejected";
+          rejection_reason?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+          skills?: string[];
+          qualifications?: string[];
         };
         Update: Partial<Database["public"]["Tables"]["professionals"]["Insert"]>;
         Relationships: [
@@ -255,7 +280,9 @@ export type Database = {
           profile_id: string;
           title: string;
           message: string;
-          type: "assignment" | "booking" | "payment" | "reminder" | "system" | "performance" | "message" | "alert";
+          type:
+            | "assignment" | "booking" | "payment" | "reminder" | "system" | "performance" | "message" | "alert"
+            | "chat" | "result" | "prescription" | "order" | "dispatch" | "waitlist" | "earn" | "attendance" | "dispute" | "verification";
           is_read: boolean;
           link_url: string | null;
           metadata: Json | null;
@@ -265,7 +292,9 @@ export type Database = {
           profile_id: string;
           title: string;
           message: string;
-          type: "assignment" | "booking" | "payment" | "reminder" | "system" | "performance" | "message" | "alert";
+          type:
+            | "assignment" | "booking" | "payment" | "reminder" | "system" | "performance" | "message" | "alert"
+            | "chat" | "result" | "prescription" | "order" | "dispatch" | "waitlist" | "earn" | "attendance" | "dispute" | "verification";
           is_read?: boolean;
           link_url?: string | null;
           metadata?: Json | null;
@@ -338,6 +367,7 @@ export type Database = {
           relationship: string;
           government_id_url: string | null;
           passport_url: string | null;
+          email: string | null;
           created_at: string;
         };
         Insert: {
@@ -349,6 +379,7 @@ export type Database = {
           relationship: string;
           government_id_url?: string | null;
           passport_url?: string | null;
+          email?: string | null;
         };
         Update: Partial<Database["public"]["Tables"]["guarantors"]["Insert"]>;
         Relationships: [];
@@ -356,18 +387,28 @@ export type Database = {
       conversations: {
         Row: {
           id: string;
-          type: "direct" | "group" | "assignment_team";
+          type: "direct" | "group" | "assignment_team" | "provider";
           name: string | null;
           assignment_id: string | null;
           participant_ids: string[];
+          chat_kind: "pharmacist" | "diagnostic" | "hospital" | "ambulance" | null;
+          provider_id: string | null;
+          booking_id: string | null;
+          service_id: string | null;
+          context_label: string | null;
           created_at: string;
           updated_at: string;
         };
         Insert: {
-          type: "direct" | "group" | "assignment_team";
+          type: "direct" | "group" | "assignment_team" | "provider";
           name?: string | null;
           assignment_id?: string | null;
           participant_ids?: string[];
+          chat_kind?: "pharmacist" | "diagnostic" | "hospital" | "ambulance" | null;
+          provider_id?: string | null;
+          booking_id?: string | null;
+          service_id?: string | null;
+          context_label?: string | null;
         };
         Update: Partial<Database["public"]["Tables"]["conversations"]["Insert"]>;
         Relationships: [];
@@ -473,9 +514,54 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["schedules"]["Insert"]>;
         Relationships: [];
       };
+      // MedLINK v8 tables (migration 007). Loosely typed until types are regenerated
+      // with `supabase gen types`; callers cast rows to local shapes.
+      professional_credentials: LooseTable;
+      professional_application_events: LooseTable;
+      organization_members: LooseTable;
+      facility_staff: LooseTable;
+      service_providers: LooseTable;
+      provider_members: LooseTable;
+      provider_services: LooseTable;
+      provider_doctors: LooseTable;
+      provider_availability: LooseTable;
+      bookings: LooseTable;
+      booking_events: LooseTable;
+      transfer_payments: LooseTable;
+      reviews: LooseTable;
+      disputes: LooseTable;
+      dispute_events: LooseTable;
+      earn_settings: LooseTable;
+      ad_campaigns: LooseTable;
+      ad_impressions: LooseTable;
+      payout_accounts: LooseTable;
+      coin_wallets: LooseTable;
+      withdrawals: LooseTable;
+      coin_ledger: LooseTable;
+      game_sessions: LooseTable;
+      game_perks: LooseTable;
+      gist_posts: LooseTable;
+      gist_reactions: LooseTable;
+      gist_comments: LooseTable;
+      gist_follows: LooseTable;
+      gist_reports: LooseTable;
+      facility_sites: LooseTable;
+      shifts: LooseTable;
+      face_enrollments: LooseTable;
+      attendance_events: LooseTable;
+      attendance_corrections: LooseTable;
+      calendar_integrations: LooseTable;
+      calendar_event_links: LooseTable;
+      privacy_consents: LooseTable;
     };
-    Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Views: {
+      gist_post_stats: { Row: { post_id: string; thumbs_up: number; thumbs_down: number; comments: number }; Relationships: [] };
+    };
+    Functions: {
+      start_ad_impression: { Args: { p_campaign: string; p_placement: string; p_game?: string | null }; Returns: string };
+      complete_ad_impression: { Args: { p_impression: string }; Returns: Json };
+      request_withdrawal: { Args: { p_reference: string }; Returns: string };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

@@ -24,14 +24,20 @@ function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const reference = searchParams.get("reference") ?? searchParams.get("trxref");
   const [result, setResult] = useState<VerifyResult | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!reference);
 
   useEffect(() => {
-    if (!reference) { setLoading(false); return; }
-    fetch(`/api/payments/verify?reference=${reference}`)
-      .then((r) => r.json())
-      .then((d: VerifyResult) => { setResult(d); setLoading(false); })
-      .catch(() => { setResult({ ok: false, error: "Verification failed" }); setLoading(false); });
+    if (!reference) return;
+    async function verify() {
+      try {
+        const r = await fetch(`/api/payments/verify?reference=${encodeURIComponent(reference!)}`);
+        setResult((await r.json()) as VerifyResult);
+      } catch {
+        setResult({ ok: false, error: "Verification failed" });
+      }
+      setLoading(false);
+    }
+    verify();
   }, [reference]);
 
   if (loading) {
@@ -69,8 +75,8 @@ function PaymentSuccessContent() {
       </div>
 
       <div className="flex gap-3">
-        <Link href="/clients/bookings"><Button>View Bookings</Button></Link>
-        <Link href="/dashboard"><Button variant="outline">Dashboard</Button></Link>
+        <Link href="/bookings"><Button>View Bookings</Button></Link>
+        <Link href="/dashboard"><Button variant="outline">Home</Button></Link>
       </div>
     </div>
   );

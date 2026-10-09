@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Home, Building2, Heart, Activity, Users, Briefcase, Check } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Our Services | careLINK by RAFFATI",
+  title: "Our Services | MedLINK by RGH",
   description: "Home care, nursing, physiotherapy, hospital staffing, and outsourcing services across Nigeria.",
 };
 
@@ -77,7 +77,7 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="text-xl font-bold text-[#0F4C81]">
             care<span className="text-[#22C55E]">LINK</span>
-            <span className="text-xs text-[#64748B] font-normal ml-1">by RAFFATI</span>
+            <span className="text-xs text-[#64748B] font-normal ml-1">by RGH</span>
           </Link>
           <div className="flex items-center gap-4">
             <Link href="/about" className="text-sm text-[#64748B] hover:text-[#0F4C81]">About</Link>
@@ -134,7 +134,7 @@ export default function ServicesPage() {
       </section>
 
       <footer className="bg-[#0F172A] py-8 text-center text-[#64748B] text-sm">
-        <p>© {new Date().getFullYear()} RAFFATI Healthcare. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} RGH. All rights reserved.</p>
       </footer>
     </div>
   );

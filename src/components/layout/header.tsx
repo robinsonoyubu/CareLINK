@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Search, Menu } from "lucide-react";
+import { Bell, Search, Menu, Siren } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -16,7 +16,7 @@ interface HeaderProps {
 
 export function Header({ title, subtitle, onMobileMenuToggle, notificationCount = 0, actions }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-[#E2E8F0] bg-white px-6">
+    <header className="md:sticky top-0 z-30 flex min-h-16 flex-wrap items-center gap-3 border-b border-[#E2E8F0] bg-white px-4 py-3 md:px-6">
       {onMobileMenuToggle && (
         <Button
           variant="ghost"
@@ -34,7 +34,7 @@ export function Header({ title, subtitle, onMobileMenuToggle, notificationCount 
         {subtitle && <p className="text-xs text-[#64748B]">{subtitle}</p>}
       </div>
 
-      <div className="hidden md:flex items-center w-72">
+      <div className="hidden lg:flex items-center w-72">
         <div className="relative w-full">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
           <Input
@@ -46,6 +46,11 @@ export function Header({ title, subtitle, onMobileMenuToggle, notificationCount 
 
       <div className="flex items-center gap-2">
         {actions}
+        <Link href="/ambulance?emergency=1" className="hidden md:inline-flex">
+          <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white" aria-label="Emergency ambulance">
+            <Siren className="h-4 w-4" /> Emergency
+          </Button>
+        </Link>
         <Link href="/notifications">
           <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
             <Bell className="h-5 w-5 text-[#64748B]" />

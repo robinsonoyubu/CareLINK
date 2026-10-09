@@ -1,4 +1,4 @@
-export type UserRole = "admin" | "professional" | "organization" | "client";
+export type UserRole = "admin" | "professional" | "organization" | "client" | "provider";
 
 export type ProfessionType =
   | "nurse"
