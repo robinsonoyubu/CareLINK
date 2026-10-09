@@ -24,14 +24,20 @@ function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const reference = searchParams.get("reference") ?? searchParams.get("trxref");
   const [result, setResult] = useState<VerifyResult | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!reference);
 
   useEffect(() => {
-    if (!reference) { setLoading(false); return; }
-    fetch(`/api/payments/verify?reference=${reference}`)
-      .then((r) => r.json())
-      .then((d: VerifyResult) => { setResult(d); setLoading(false); })
-      .catch(() => { setResult({ ok: false, error: "Verification failed" }); setLoading(false); });
+    if (!reference) return;
+    async function verify() {
+      try {
+        const r = await fetch(`/api/payments/verify?reference=${encodeURIComponent(reference!)}`);
+        setResult((await r.json()) as VerifyResult);
+      } catch {
+        setResult({ ok: false, error: "Verification failed" });
+      }
+      setLoading(false);
+    }
+    verify();
   }, [reference]);
 
   if (loading) {
